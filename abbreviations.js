@@ -1,6 +1,38 @@
-async function loadTable(path) {
+async function loadTable() {
   try {
-    const fileContent = await Zotero.File.getContentsAsync(path);
+    // Use Zotero.DataDirectory for a safe, absolute path
+    const filePath = Zotero.DataDirectory.dir + "/JournalAbbr.csv";
+    Zotero.debug("Checking for JournalAbbr.csv at: " + filePath);
+    let fileExists = false;
+    try {
+      fileExists = await IOUtils.exists(filePath);
+    } catch (e) {
+      Zotero.debug("IOUtils.exists error: " + e);
+    }
+    if (!fileExists) {
+      Zotero.debug("JournalAbbr.csv not found, downloading from GitHub...");
+      const response = await fetch("https://raw.githubusercontent.com/HuimingPan/ZoteroScript/refs/heads/main/JournalAbbr.csv");
+      if (!response.ok) {
+        throw new Error("Failed to download file");
+      }
+      const fileContent = await response.text();
+      try {
+        await Zotero.File.putContentsAsync(filePath, fileContent);
+        Zotero.debug("Downloaded and saved JournalAbbr.csv");
+      } catch (e) {
+        Zotero.debug("Error saving JournalAbbr.csv: " + e);
+        throw e;
+      }
+    }
+
+    let fileContent = "";
+    try {
+      fileContent = await Zotero.File.getContentsAsync(filePath);
+      Zotero.debug("Loaded JournalAbbr.csv content");
+    } catch (e) {
+      Zotero.debug("Error reading JournalAbbr.csv: " + e);
+      throw e;
+    }
     const journalTable = new Map();
     const conferenceTable = new Map();
     const rows = fileContent.split('\n');
@@ -8,7 +40,6 @@ async function loadTable(path) {
     for (const row of rows) {
       // Use a regular expression to match the CSV format, including quoted strings
       const match = row.match(/^(journal|conference),[ "]*([^"]*)"?,(.+)/);
-//       console.log(match)
       if (match) {
         const [_, type, key, value] = match;
         if (type && key && value) {
@@ -26,7 +57,7 @@ async function loadTable(path) {
       conferenceTable
     };
   } catch (error) {
-    Zotero.debug("Error reading file: " + error);
+    Zotero.debug("Error in loadTable: " + error);
     return {
       journalTable: new Map(),
       conferenceTable: new Map()
@@ -49,11 +80,11 @@ function FindConferenceAbbr(conf, conferenceTable) {
 }
 
 
-const path = "D:\\NutStore\\Zotero\\插件配置\\JournalAbbr.csv";
+
 const {
   journalTable,
   conferenceTable
-} = await loadTable(path);
+} = await loadTable();
 
 if (item.isRegularItem() && !(item instanceof Zotero.Collection)) {
 	if (item.itemType == 'journalArticle') {
