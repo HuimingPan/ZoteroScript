@@ -1,0 +1,269 @@
+type: ActionsTagsBackup
+author: HuimingPan
+platformVersion: 7.0.14
+pluginVersion: 2.1.0
+timestamp: '2025-03-18T12:27:52.614Z'
+actions:
+  1725947085027-hofnPqFE:
+    event: 0
+    operation: 4
+    data: >-
+      // PDF深度查询
+
+      // @author Polygon
+
+      // @link
+      https://github.com/windingwind/zotero-actions-tags/discussions/124
+
+      // @usage Menu Label=PDF深度查询
+
+      const ZoteroPane = require("ZoteroPane")
+
+      const Zotero = require("Zotero")
+
+      let DOI = ""
+
+      if (!item.isRegularItem()) {
+          return "不支持该类型"
+      } else if ((DOI = item.getField("DOI")).length == 0) {
+          return "无DOI不支持查询"
+      }
+
+      // scihub start
+
+      let parser = new DOMParser()
+
+      let scihubUrl = "https://sci-hub.st"
+
+      let url = `${scihubUrl}/${DOI}`
+
+      let resp = await Zotero.HTTP.request("GET", url)
+
+      let htmlDoc = parser.parseFromString(resp.responseText, "text/html")
+
+      let pdfTag = htmlDoc.querySelector("#pdf")
+
+      if (pdfTag) {
+          let pdfUrl = pdfTag.getAttribute("src")
+          if (pdfUrl.startsWith("//")) {
+              pdfUrl = "https:" + pdfUrl
+          } else if (pdfUrl.startsWith("/")) {
+              pdfUrl = scihubUrl + pdfUrl
+          }
+          let importOptions = {
+              libraryID: item.libraryID,
+              url: pdfUrl,
+              parentItemID: item.id,
+              title: "PDF_From_Scihub",
+              fileBaseName: "Full_Text_by_Action",
+              contentType: 'application/pdf',
+              referrer: url,
+          }
+          // result is an attachment item
+          let result = await Zotero.Attachments.importFromURL(importOptions)
+          if (result.key) {
+              return "SciHub 下载成功"
+          }
+      }
+
+
+      // open-access start if pdf can not found in scihub
+
+      Zotero.launchURL(
+          `https://sci-hub.soik.top/?doi=${DOI}`
+      )
+
+      return "查询中..."
+    shortcut: ''
+    enabled: true
+    menu: Find PDF
+    name: Find PDF
+    showInMenu:
+      item: true
+      collection: false
+      tools: false
+      reader: false
+      readerAnnotation: false
+  1724654175624-hofnPqFE:
+    event: 3
+    operation: 2
+    data: Unread
+    shortcut: ''
+    enabled: true
+    menu: ''
+    name: Delete Tag TBR
+    showInMenu:
+      item: false
+      collection: false
+      tools: false
+      reader: false
+      readerAnnotation: false
+  1724653896311-hofnPqFE:
+    event: 2
+    operation: 4
+    data: "// Auto-run Better Notes template when opening an item for the first time\n// @author windingwind\n// @link https://github.com/windingwind/zotero-tag/discussions/108\n// @usage Event=Open File\n\nconst Zotero = require(\"Zotero\");\nconst window = require(\"window\");\n\nif (!Zotero.BetterNotes?.api.note?.insert) {\n\treturn \"[Action:Auto-Template] Better Notes for Zotero > 1.1.4-21 is not installed or disabled.\";\n}\nif (!item) {\n\treturn \"[Action:Auto-Template] Target item is empty\";\n}\n\n// Check if an auto-template note already exists\nconst autoTemplateTag = \"auto-template\";\nconst notes = Zotero.Items.get(item.getNotes());\nif (notes.some(note => note.getTags().some(obj => obj.tag === autoTemplateTag))) {\n\treturn \"[Action:Auto-Template] Auto-template already exists\";\n}\n\nconst prefsKey = \"extensions.actionsTags.customAction.autoRunBNTemplate\";\n\n// Get template name\nlet templateName = Zotero.Prefs.get(prefsKey, true);\nlet templateContent = Zotero.BetterNotes.api.template.getTemplateText(templateName);\nif (!templateContent) {\n\t// Template name is not defined or invalid. Get from input\n\tconst templateNames = Zotero.BetterNotes.api.template.getTemplateKeys();\n\n\tfunction selectItems(itemList) {\n\t\tvar io = { dataIn: itemList, dataOut: null };\n\t\twindow.openDialog(\"chrome://zotero/content/ingester/selectitems.xhtml\",\n\t\t\t\"_blank\", \"chrome,modal,centerscreen,resizable=yes\", io);\n\t\treturn io.dataOut;\n\t}\n\n\ttemplateName = Object.values(selectItems(templateNames))[0];\n\ttemplateContent = Zotero.BetterNotes.api.template.getTemplateText(templateName);\n\tif (!templateContent) {\n\t\treturn \"[Action:Auto-Template] Template is invalid\";\n\t}\n\tZotero.Prefs.set(prefsKey, templateName, true);\n}\n\nconst parentItem = Zotero.Items.getTopLevel([item])[0];\n\nconst noteItem = new Zotero.Item(\"note\");\nnoteItem.libraryID = parentItem.libraryID;\nnoteItem.parentID = parentItem.id;\nnoteItem.addTag(autoTemplateTag, 0);\nawait noteItem.saveTx();\n\nlet html = \"\";\nif (templateName.toLowerCase().startsWith(\"[item]\")) {\n\thtml = await Zotero.BetterNotes.api.template.runItemTemplate(templateName, {\n\t\titemIds: [parentItem.id],\n\t\ttargetNoteId: noteItem.id,\n\t});\n} else {\n\thtml = await Zotero.BetterNotes.api.template.runTextTemplate(templateName, {\n\t\ttargetNoteId: noteItem.id,\n\t});\n}\nawait Zotero.BetterNotes.api.note.insert(\n\tnoteItem,\n\thtml,\n\t-1,\n);\n\nreturn `[Action:Auto-Template] Note ${noteItem.getNoteTitle()} is created on item ${item.getField(\"title\")} from template ${templateName}`;"
+    shortcut: ''
+    enabled: false
+    menu: ''
+    name: Create Notes
+    showInMenu:
+      item: false
+      collection: false
+      tools: false
+      reader: false
+      readerAnnotation: false
+  1741520149802-JtlwTgRl:
+    event: 1
+    operation: 4
+    data: "/**\n * @name Title Case Conversion for Zotero\n * @author Arthur Pavezzi\n * @usage Converts titles to Title Case while preserving common lowercase words\n * @usage Uses Zotero's language field to determine which rules to apply\n * @link https://github.com/windingwind/zotero-actions-tags/discussions/\n * @see https://github.com/windingwind/zotero-actions-tags/discussions/\n */\n\n// Lists of words that should remain lowercase unless they're the first word\n\nif (!item) {\n  return;\n}\nconst lowercaseWords = [\n        \"a\", \"an\", \"and\", \"as\", \"at\", \"but\", \"by\", \"for\", \"from\", \"in\", \"into\", \n        \"of\", \"on\", \"or\", \"the\", \"to\", \"with\", \"via\", 'vs'\n    ];\n\nconst uppercaseWords = [\n\t\"EMG\", \"EOG\", \"EEG\", \"IMU\", \"SSVEP\", \"DOF\", \"XAI\"\n]\n\nreturn await correctTitleTitleCase(item);\n\nfunction isAllCapitalized(word) {\n    return word === word.toUpperCase();\n}\n\n// Helper function to capitalize first letter\nfunction capitalizeFirst(word) {\n    if (word.length === 0) return word;\n    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();\n}\n\nfunction capitalizeCompoundWord(word) {\n\tconst parts = word.split('-');\n\n\tlet newWord = parts.map(part =>{\n\t\tif  (isAllCapitalized(part) || uppercaseWords.includes(part.toUpperCase())) {\n            return part.toUpperCase();\n        }\n\t\telse if(lowercaseWords.includes(part.toLowerCase())){\n\t\t\treturn part.toLowerCase();\n\t\t}\n\t\treturn capitalizeFirst(part);\n\t\t}).join('-');\n\treturn newWord\n}\n\nasync function correctTitleTitleCase(targetItem){\n    let title = targetItem.getField('title');\n    if (!title) return \"No Title Field!!\";\n\n\tif (title === title.toUpperCase()){\n\t\ttitle = title.toLowerCase();\n\t}\n\tif (title.includes(\"–\")){\n\t\ttitle = title.replace('–', '-');\n\t}\n    // Split the title into words\n    let words = title.split(/\\s+/);\n    \n    // Process each word\n    let newWords = words.map((word, index) => {\n        // Skip first word since it could be some special word or abbreviations\n        if (index ===0){\n\t\t\tif (word.includes(\"-\") ){\n\t\t\t\treturn capitalizeCompoundWord(word)\n\t\t\t}\n\t\t\treturn word;\n\t\t};\n\n\t\t// capitalize compund word.\n\t\tif (word.includes('-'))  return capitalizeCompoundWord(word);\n\n\t\t// Preserve words that are already all uppercase\n        if (isAllCapitalized(word) || uppercaseWords.includes(word.toUpperCase())) {\n            return word.toUpperCase();\n        }\n        \n        // Check if word should be lowercase\n        if (lowercaseWords.includes(word.toLowerCase())) {\n            return word.toLowerCase();\n        }\n        \n        // Capitalize first letter of other words\n        return capitalizeFirst(word);\n    });\n\n    // Join words back together\n    let newTitle = newWords.join(' ');\n    \n    // Update if title changed\n    if (newTitle !== title) {\n        item.setField('title', newTitle);\n        await item.saveTx();\n\t\treturn `title updated for item ${item.getField(\"title\")}`;\n    }\n\treturn \"No Update.\"\n}"
+    shortcut: Shift,Ctrl,!
+    enabled: true
+    menu: Correct Title
+    name: Correct Title
+    showInMenu:
+      item: true
+      collection: false
+      tools: false
+      reader: false
+      readerAnnotation: false
+  1741519698312-JtlwTgRl:
+    event: 0
+    operation: 4
+    data: "/**\n * Update journal article metadata from DOI\n * @author windingwind\n * @usage \n * @link https://github.com/windingwind/zotero-actions-tags/discussions/182\n * @see https://forums.zotero.org/discussion/75796/how-to-retrieve-and-update-metadata-in-zotero\n * @see https://github.com/northword/zotero-format-metadata/blob/main/src/modules/rules/field-retrive.ts\n */\nif (!item) {\n  return;\n}\n\nreturn await updateMetadataByIdentifier(item);\n\nasync function updateMetadataByIdentifier(targetItem, mode = \"all\") {\n  let doi = targetItem.getField(\"DOI\");\n  // 不存在 DOI 直接结束\n  // todo: 若有附件，尝试从附件获取?\n  // todo: 弹出 DOI 输入对话框?\n  if (!doi) {\n    return `DOI not set on item ${targetItem.getField(\"title\")}`;\n  }\n\n  if (doi.match(/arxiv/gi)) {\n    const arxivID = doi.replace(/10.48550\\/arXiv\\./gi, \"\");\n    const tmpDOI = await getDOIFromArxiv(arxivID);\n    doi = tmpDOI !== false ? tmpDOI : doi;\n  }\n\n  const newItem = await translateByDOI(doi);\n\n  const fields = [\n    \"title\",\n    \"publicationTitle\",\n    \"journalAbbreviation\",\n    \"volume\",\n    \"issue\",\n    \"date\",\n    \"pages\",\n    \"issue\",\n    \"ISSN\",\n    \"url\",\n    \"DOI\",\n    \"abstractNote\",\n\t\"language\"\n  ];\n\n  // mode == all: 强制更新，无论原值是否为空：mode == \"all\" ||\n  // 对于一个字段，若 mode == \"all\"，更新\n  //              若 mode == \"blank\"，且 旧值为空，更新\n  //              若 mode == \"blank\"，且 旧值非空，保持\n  //              若 mode == \"blank\"，且 新值为空，？？\n\n  // 更改 ItemType\n  if (mode === \"all\") {\n    newItem[\"itemTypeID\"] = Zotero.ItemTypes.getID(newItem[\"itemType\"]);\n    if (newItem[\"itemType\"] !== targetItem.itemType && !doi.match(/arxiv/gi)) {\n      targetItem.setType(newItem[\"itemTypeID\"]);\n    }\n  }\n\n  // 更新 creators\n  if (mode === \"all\" || targetItem.getCreators().length == 0) {\n    targetItem.setCreators(newItem[\"creators\"]);\n  }\n\n  for (const field of fields) {\n    const newFieldValue = newItem[field] ?? \"\",\n      oldFieldValue = targetItem.getField(field);\n\n    // 当新条目该字段未空时，结束本次循环\n    // 存疑：当新条目该字段为空时，可能是该字段确实为空，用户已有条目字段可能是假值。\n    // if (!newFieldValue) continue;\n\n    if (!(mode === \"all\" || !oldFieldValue)) continue;\n\n    switch (field) {\n      // case \"publicationTitle\":\n      //     // 当原条目存在期刊名时，不替换\n      //     if (oldFieldValue == \"\") {\n      //         item.setField(field, newFieldValue);\n      //     }\n      //     break;\n\n      // case \"journalAbbreviation\":\n      //     if (newFieldValue.length == oldFieldValue.toString().length){\n      //         //\n      //     }\n\n      //     break;\n      case \"url\":\n        // 旧的 url 为空、为 WOS 链接时，更新 url\n        if (\n          oldFieldValue == \"\" ||\n          (typeof oldFieldValue == \"string\" &&\n            oldFieldValue.includes(\"webofscience\"))\n        ) {\n          targetItem.setField(field, newFieldValue);\n        }\n        break;\n\n      case \"date\":\n        targetItem.setField(field, Zotero.Date.strToISO(newFieldValue));\n        break;\n\n      default:\n        targetItem.setField(field, newFieldValue);\n        break;\n    }\n  }\n  return `Metadata updated for item ${targetItem.getField(\"title\")}`;\n}\n\nasync function getDOIFromArxiv(arxivID) {\n  const id = arxivID.replace(/arxiv:/gi, arxivID).trim();\n  const url = `https://export.arxiv.org/api/query?id_list=${id}`;\n\n  const res = await Zotero.HTTP.request(\"GET\", url);\n  const result = res.response;\n  if (result == \"\" || result == null || result == undefined) {\n    return false;\n  }\n  const doc = new DOMParser().parseFromString(result, \"text/xml\");\n  const refDoi = doc.querySelector(\"doi\");\n  if (refDoi) {\n    return refDoi.innerHTML;\n  } else {\n    return false;\n  }\n}\n\n\nasync function translateByDOI(doi) {\n  const identifier = {\n    itemType: \"journalArticle\",\n    DOI: doi,\n  };\n\n  const translate = new Zotero.Translate.Search();\n  translate.setIdentifier(identifier);\n  const translators = await translate.getTranslators();\n  translate.setTranslator(translators);\n\n  // {libraryID: options} 避免条目保存\n  // https://github.com/zotero/translate/blob/05755f5051a77737c56458440c79964c7a8874cf/src/translation/translate.js#L1208-L1210\n  // 配置这一项后返回的不再是 Zotero.Item[]，而是一个包含字段信息的 Object[]\n  const newItems = await translate.translate({ libraryID: false });\n  const newItem = newItems[0];\n  return newItem;\n}"
+    shortcut: ''
+    enabled: true
+    menu: Correct Metadata
+    name: Correct Metadata
+    showInMenu:
+      item: true
+      collection: false
+      tools: false
+      reader: false
+      readerAnnotation: false
+  1729316684982-JtlwTgRl:
+    event: 0
+    operation: 4
+    data: |
+      /**
+       * Renames and updates the path of an attachment to a new location.
+       * The new filename is in the format {{citationKey}}_ItemKey_{{itemKey of attachment}}.
+       * @author siocean
+       * @To open the attachment from outside of Zotero into Zotero if it is present in Zotero in the first place.
+       * @link https://github.com/windingwind/zotero-actions-tags/discussions/
+       * @see https://github.com/windingwind/zotero-actions-tags/discussions/
+       */
+      const Zotero = require("Zotero");
+
+      async function updateAttachmentPath(attachment, correctPath) {
+          if (!attachment) {
+              return { updated: 0, errors: 1 };
+          }
+
+          if (attachment.attachmentLinkMode === Zotero.Attachments.LINK_MODE_LINKED_URL) {
+              Zotero.logError(`Cannot update linked URL attachment ${attachment.id}.`);
+              return { updated: 0, errors: 1 };
+          }
+
+          if (!attachment.parentItemID) {
+              Zotero.logError(`Attachment ${attachment.id} does not have a parent item.`);
+              return { updated: 0, errors: 1 };
+          }
+
+          const parentItem = await Zotero.Items.getAsync(attachment.parentItemID);
+          if (!parentItem) {
+              Zotero.logError(`No parent item found for attachment ${attachment.id}.`);
+              return { updated: 0, errors: 1 };
+          }
+
+          // Get the citation key from the parent item
+          const citationKey = parentItem.getField('citationKey');
+          if (!citationKey) {
+              Zotero.logError(`Citation key not found for parent item ${parentItem.id}.`);
+              return { updated: 0, errors: 1 };
+          }
+
+          // Get the current path and check if it's a PDF or EPUB
+          const currentPath = await attachment.getFilePathAsync();
+          if (!currentPath || !currentPath.match(/\.(pdf|epub)$/i)) {
+              return { updated: 0, errors: 0 };
+          }
+
+          // Construct the new filename and path
+          const itemKey = attachment.key;
+          const filename = currentPath.split('/').pop();
+          const newPath = correctPath + '/' + filename;
+
+          try {
+              attachment.setField('path', newPath);
+              await attachment.saveTx();
+              return { updated: 1, errors: 0 };
+          } catch (error) {
+              Zotero.logError(`Error updating attachment ${attachment.id}: ${error}`);
+              return { updated: 0, errors: 1 };
+          }
+      }
+
+      (async () => {
+          if (!items && !item) {
+              Zotero.alert(null, "Update Attachment Paths", "[Update Attachment Paths] No item or items array provided.");
+              return;
+          }
+
+          let targetItems = items || (item ? [item] : []);
+          let totalUpdated = 0;
+          let totalErrors = 0;
+          const correctPath = "D:/NutStore/Zotero/Attachments"; // Replace with the desired correct path.
+
+          for (const currentItem of targetItems) {
+              const attachments = currentItem.itemType === 'attachment' ? [currentItem] : await Zotero.Items.getAsync(currentItem.getAttachments());
+              for (const attachment of attachments) {
+                  const result = await updateAttachmentPath(attachment, correctPath);
+                  totalUpdated += result.updated;
+                  totalErrors += result.errors;
+              }
+          }
+
+          // Display a summary alert only if more than one attachment has been updated
+          if (totalUpdated > 0 || totalErrors > 0) {
+              Zotero.alert(null, "Update Attachment Paths", `[Update Attachment Paths] Successfully updated ${totalUpdated} attachment paths. Errors: ${totalErrors}`);
+          }
+      })();
+    shortcut: ''
+    enabled: false
+    menu: Correct Path
+    name: Correct Attachment Path
+    showInMenu:
+      item: true
+      collection: false
+      tools: false
+      reader: false
+      readerAnnotation: false
+  1724837523400-hofnPqFE:
+    event: 1
+    operation: 4
+    data: "async function loadTable(path) {\n  try {\n    const fileContent = await Zotero.File.getContentsAsync(path);\n    const journalTable = new Map();\n    const conferenceTable = new Map();\n    const rows = fileContent.split('\\n');\n\n    for (const row of rows) {\n      // Use a regular expression to match the CSV format, including quoted strings\n      const match = row.match(/^(journal|conference),[ \"]*([^\"]*)\"?,(.+)/);\n//       console.log(match)\n      if (match) {\n        const [_, type, key, value] = match;\n        if (type && key && value) {\n          if (type === 'journal') {\n            journalTable.set(key.trim().toLowerCase(), value.trim());\n          } else if (type === 'conference') {\n            conferenceTable.set(key.trim().toLowerCase(), value.trim());\n          }\n        }\n      }\n    }\n\n    return {\n      journalTable,\n      conferenceTable\n    };\n  } catch (error) {\n    Zotero.debug(\"Error reading file: \" + error);\n    return {\n      journalTable: new Map(),\n      conferenceTable: new Map()\n    };\n  }\n}\n\nfunction FindJournalAbbr(journal, journalTable) {\n  return journalTable.get(journal.trim().toLowerCase()) || \"Unknown\"; // Return \"Unknown\" if the journal is not found\n}\n\nfunction FindConferenceAbbr(conf, conferenceTable) {\n  // Iterate through the conferenceTable to find an exact match\n  for (let [fullTitle, abbreviation] of conferenceTable.entries()) {\n    if (conf.trim().toLowerCase().includes(fullTitle)) {\n      return abbreviation;\n    }\n  }\n  return conf; // Return \"Unknown\" if the conference is not found\n}\n\n\nconst path = \"D:\\\\NutStore\\\\Zotero\\\\插件配置\\\\JournalAbbr.csv\";\nconst {\n  journalTable,\n  conferenceTable\n} = await loadTable(path);\n\n\n\n\nif (item.isRegularItem() && !(item instanceof Zotero.Collection)) {\n\tif (item.itemType == 'journalArticle') {\n\t\tvar journal = item.getField(\"publicationTitle\");\n\t\tvar abbr = FindJournalAbbr(journal, journalTable);\n\t\tif(abbr == \"Unknown\"){\n\t\t\tif(item.getField(\"journalAbbr\"))\n\t\t\t\tabbr = item.getField(\"journalAbbr\")\n\t\t\telse{\n\t\t\t\tabbr = journal\n\t\t\t}\n\t\t}\n\t\titem.setField(\"archive\", abbr);\n\t\t\n\t} \n\n\telse if (item.itemType == 'conferencePaper') {\n\t\tvar proceedingsTitle = item.getField(\"proceedingsTitle\");\n\t\tif (proceedingsTitle == \"\") {\n\t\tvar proceedingsTitle = item.getField(\"conferenceName\");\n\t\t}\n\t\tconst yearPattern = /\\b(19|20)\\d{2}\\b/g;\n\t\tvar yearMatch = proceedingsTitle.match(yearPattern);\n\t\tvar year = yearMatch ? yearMatch[0] : \"000\";\n\n\t\tvar confAbbr = FindConferenceAbbr(proceedingsTitle, conferenceTable);\n\t\tvar abbr = confAbbr + year;\n\n\t\titem.setField(\"archive\", abbr);\n\t}\n\n\telse if (item.itemType == 'preprint'){\n\t\titem.setField(\"archive\", 'Preprint');\n\t}\n\telse if (item.itemType == 'book' || item.itemType == 'bookSection' ){\n\t\tabbr = item.getField(\"publisher\");\n\t\titem.setField(\"archive\", abbr);\n\t}\n\telse{\n\t\titem.setField(\"archive\", \"Unknown\");\n\t}\n}\n\n\n"
+    shortcut: ''
+    enabled: true
+    menu: Abbreviation
+    name: Correct Abbreviation
+    showInMenu:
+      item: true
+      collection: false
+      tools: false
+      reader: false
+      readerAnnotation: false
+  1724654080687-hofnPqFE:
+    event: 1
+    operation: 1
+    data: |
+      Unread
+    shortcut: ''
+    enabled: true
+    menu: ''
+    name: Add Tag TBR
+    showInMenu:
+      item: false
+      collection: false
+      tools: false
+      reader: false
+      readerAnnotation: false

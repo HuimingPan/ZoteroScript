@@ -1,0 +1,178 @@
+type,key,value
+journal, ACM Transactions on Graphics,TOG
+journal, ACM Transactions on Sensor Networks,TOSN
+journal, ACS Applied Electronic Materials,ACS AEM
+journal, ACS Applied Materials & Interfaces,ACS AMI
+journal, Advanced Engineering Informatics,AEI
+journal, Advanced Functional Materials,AFM
+journal, Advanced Intelligent Systems,AIS
+journal, Advanced Materials,AM
+journal, Advanced Robotics,AR
+journal, Advanced Science,AS
+journal, Annals of Biomedical Engineering,ABME
+journal, Applied Mechanics Reviews,AMR
+journal, Archives of Physical Medicine and Rehabilitation,APMR
+journal, Behavior Research Methods,BRM
+journal, Beilstein Journal of Nanotechnology,BJN
+journal, Biochemical and Biophysical Research Communications,BBRC
+journal, Biomechanics and Modeling in Mechanobiology,BMM
+journal, Biomed Research International,BRI
+journal, BioMedical Engineering OnLine,BMEO
+journal, Biomedical Signal Processing and Control,BSPC
+journal, Biophysical Journal,BJ
+journal, Biosensors & Bioelectronics,BB
+journal, Biosensors-Basel,Biosensors
+journal, Clinical Biomechanics,CB
+journal, Comprehensive Physiology,CP
+journal, Expert Systems with Applications,ESWA
+journal, IEEE Electron Device Letters,EDL
+journal, IEEE Internet of Things Journal,JIOT
+journal, IEEE Journal of Biomedical and Health Informatics,JBHI
+journal, IEEE Journal of Selected Topics in Signal Processing,JSTSP
+journal, IEEE Reviews in Biomedical Engineering,RBE
+journal, IEEE Robotics and Automation Letters,RAL
+journal, IEEE Sensors Journal,IEEE Sensors J.
+journal, IEEE Systems Journal,ISJ
+journal, IEEE Transactions on Artificial Intelligence,TAI
+journal, IEEE Transactions on Automatic Control,TAC
+journal, IEEE Transactions on Automation Science and Engineering,TASE
+journal, IEEE Transactions on Biomedical Circuits and Systems,TBCS
+journal, IEEE Transactions on Biomedical Engineering,TBME
+journal, IEEE Transactions on Computational Biology and Bioinformatics,TCBB
+journal, IEEE Transactions on Cognitive and Developmental Systems,TCDS
+journal, IEEE Transactions on Fuzzy Systems,TFUZZ
+journal, IEEE Transactions on Haptics,TOH
+journal, IEEE Transactions on Human-Machine Systems,THMS
+journal, IEEE Transactions on Industrial Electronics,TIE
+journal, IEEE Transactions on Industrial Informatics,TII
+journal, IEEE Transactions on Information Technology in Biomedicine,TITB
+journal, IEEE Transactions on Instrumentation and Measurement,TIM
+journal, IEEE Transactions on Intelligent Transportation Systems,TITS
+journal, IEEE Transactions on Intelligent Vehicles,TIV
+journal, IEEE Transactions on Knowledge and Data Engineering,TKDE
+journal, IEEE Transactions on Mechatronics,TM
+journal, IEEE Transactions on Medical Imaging,TMI
+journal, IEEE Transactions on NanoBioscience,TNB
+journal, IEEE Transactions on Neural Networks,TNN
+journal, IEEE Transactions on Neural Systems and Rehabilitation Engineering,TNSRE
+journal, IEEE Transactions on Pattern Analysis and Machine Intelligence,TPAMI
+journal, IEEE Transactions on Robotics,TRO
+journal, IEEE/ASME Transactions on Mechatronics,TMECH
+journal, Information Fusion,Info. Fusion
+journal, International Journal of Advance Scientific Research,IJASR
+journal, International Journal of Molecular Sciences,IJMS
+journal, International Journal of Neural Systems,IJNS
+journal, International Journal of Plasticity,IJP
+journal, International Journal of Humanoid Robotics, Int. J. Human. Robot.
+journal, The International Journal of Robotics Research,IJRR
+journal, Journal of Applied Biomedicine,JAB
+journal, Journal of Applied Physiology,JAP
+journal, Journal of Biomechanical Engineering,JBME
+journal, Journal of Biomechanical Engineering-Transactions of the Asme,JBME
+journal, Journal of Biomechanics,JOB
+journal, Journal of Clinical Medicine,JCM
+journal, Journal of Neural Engineering,JNE
+journal, Journal of Neuroengineering and Rehabilitation,JNER
+journal, Journal of Orthopaedic & Sports Physical Therapy,JOSPT
+journal, Journal of Process Control,JPC
+journal, Journal of Rehabilitation and Assistive Technologies Engineering,JRATE
+journal, Journal of Science and Medicine in Sport,JSMS
+journal, Journal of the Mechanics and Physics of Solids,JMPS
+journal, Measurement Science and Technology,MST
+journal, Medical & Biological Engineering & Computing,MBEC
+journal, Medicine & Science in Sports & Exercise,MSSE
+journal, Nature,Nature
+journal, Nature Biomedical Engineering,NBE
+journal, Nature Communications,NC
+journal, Nature Machine Intelligence,NMI
+journal, Nature Human Behaviour,NHB
+journal, Nature Reviews Methods Primers,Nat. Rev. Methods Primers
+journal, Nature Reviews Neuroscience,Nat. Rev. Neurosci
+journal, Science,Science
+journal, Science Advances,Sci. Adv.
+journal, Science Robotics,Sci. Robot.
+journal, Scientific Reports,Sci. Rep.
+journal, Sensors,Sensors
+journal, Sensors and Actuators A: Physical,Sensors and Actuators A
+journal, Sensors and Actuators B: Chemical,Sensors and Actuators B
+journal, Sports Medicine,SM
+journal, Theoretical Biology and Medical Modelling,TBMM
+journal, 自动化学 ?,自动化学 ?
+journal,"IEEE Transactions on Components, Packaging and Manufacturing Technology",TCPMT
+journal,"IEEE Transactions on Systems, Man, and Cybernetics: Systems",TSMCS
+conference, ACM International Joint Conference on Pervasive and Ubiquitous Computing,UbiComp
+conference, ACM SIGMOD Workshop on Research Issues in Data Mining and Knowledge Discovery,RIDMKD
+conference, Advances in Service and Industrial Robotics,ServiceRobotics
+conference, Advances in Neural Information Processing Systems,NeurIPS 
+conference, American Control Conference,ACC
+conference, Annual International Conference of the IEEE Engineering in Medicine and Biology Society,EMBC
+conference, ASME International Design Engineering Technical Conferences and Computers and Information in Engineering Conference,IDETC/CIE
+conference, ASME International Mechanical Engineering Congress and Exposition,IMECE
+conference, CHI Conference on Human Factors in Computing Systems,CHI
+conference, Chinese Control And Decision Conference,CCDC
+conference, Chinese Control Conference,CCC
+conference, IEEE ANDESCON,ANDESCON
+conference, IEEE/CVF Conference on Computer Vision and Pattern Recognition,CVPR
+conference, IEEE Engineering in Medicine and Biology Society,IEMBS
+conference, IEEE Haptics Symposium,HAPTIC
+conference, IEEE International Conference on Acoustics, ICASSP
+conference, IEEE International Conference on Advanced Robotics and Mechatronics,ICARM
+conference, IEEE International Conference on Automation and Logistics,ICAL
+conference, IEEE International Conference on Automation Science and Engineering,CASE
+conference, IEEE International Conference on Bioinformatics and Biomedicine,BIBM
+conference, IEEE International Conference on Industrial Technology,ICIT
+conference, IEEE/RSJ International Conference on Intelligent Robots and Systems,IROS
+conference, IEEE International Conference on Intelligent Transportation Systems,ITSC
+conference, IEEE International Conference on Mechatronics and Automation,ICMA
+conference, IEEE International Conference on Real-time Computing and Robotics,RCAR
+conference, IEEE International Conference on Rehabilitation Robotics,ICORR
+conference, IEEE International Conference on RFID Technology and Applications,RFID-TA
+conference, IEEE International Conference on Robotics and Biomimetics,ROBIO
+conference, IEEE International Conference on Soft Robotics,RoboSoft
+conference, IEEE International Conference on Ubiquitous Robots,UR
+conference, IEEE International Conference on Unmanned Systems,ICUS
+conference, IEEE International Ultrasonics Symposium,IUS
+conference, IEEE Sensors Applications Symposium,SAS
+conference, IEEE/SICE International Symposium on System Integration,SII
+conference, IEEE Symposium Series on Computational Intelligence,SSCI
+conference, IEEE World Haptics Conference,WHC
+conference, Intelligent Robotics and Applications,ICIRA
+conference, International Conference for Biomedical Robotics and Biomechatronics,BioRob
+conference, International Conference on Advanced Robotics,ICAR
+conference, International Conference on Advanced Intelligent Mechatronics,AIM
+conference, International Conference on Body Sensor Networks,BSN
+conference, International Conference on Control and Automation,ICCA
+conference, International Conference on Control, ICARCV
+conference, International Conference on Digital Signal Processing, DSP
+conference, International Conference on Electronic Packaging Technology,ICEPT
+conference, International Conference on Future Information Technology,FUTURETECH
+conference, International Conference on Humanoid Robots,HUMANOIDS
+conference, International Conference on Indoor Positioning and Indoor Navigation,IPIN
+conference, International Conference on Machine Learning,ICML
+conference, International Conference on Mechatronics and Machine Vision in Practice,M2VIP
+conference, International Conference on Micro and Nanotechnology for Power Generation and Energy Conversion Applications,POWERMEMS
+conference, International Conference on Robotics and Automation,ICRA
+conference, International Conference on Sensor Networks,SENSORNETS
+conference, International Conference on Wearable and Implantable Body Sensor Networks,BSN
+conference, International Design Engineering Technical Conferences and Computers and Information in Engineering Conference,IDETC/CIE
+conference, International IEEE/EMBS Conference on Neural Engineering,NER
+conference, International Symposium on Applied Sciences in Biomedical and Communication Technologies,ISABEL
+conference, International Symposium on Experimental Robotics,ISER
+conference, International Symposium on Intelligent Systems and Informatics,SISY
+conference, International Symposium on Medical Measurements and Applications,MeMeA
+conference, International Symposium on Robotics Research,ISRR
+conference, Optics in Health Care and Biomedical Optics IX,OHBO
+conference, Photonic Devices and Algorithms for Computing VIII,PDAC
+conference, Proceedings of the 8th ACM SIGMOD Workshop on Research Issues in Data Mining and Knowledge Discovery,RIDMKD
+conference, Proceedings of the 9th International Conference on Sensor Networks,SENSORNETS
+conference, Proceedings of the ASME Summer Bioengineering Conference,SBC
+conference, Proceedings of the China Association for Science and Technology,CAST
+conference, Recent Trends in Data Science and Soft Computing,RTDSC
+conference, Robotics: Science and Systems,RSS
+conference, The Fifth International Conference on Biological Information and Biomedical Engineering,BIBE
+conference, The International Conference on Advanced Machine Learning Technologies and Applications,AMLTA
+conference, Ukraine Conference on Electrical and Computer Engineering ,UKRCON
+conference, World Congress on Intelligent Control and Automation,WCICA
+conference,"IEEE Games, Entertainment, Media Conference",GEM
+conference,"IEEE International Conference on Manipulation, Manufacturing and Measurement on the Nanoscale",3M-NANO
+conference,"International Conference on Solid-State Sensors, Actuators and Microsystems",TRANSDUCERS
