@@ -111,6 +111,7 @@ conference, ASME International Mechanical Engineering Congress and Exposition,IM
 conference, CHI Conference on Human Factors in Computing Systems,CHI
 conference, Chinese Control And Decision Conference,CCDC
 conference, Chinese Control Conference,CCC
+conference, Conference on Robot Learning, CoRL
 conference, IEEE ANDESCON,ANDESCON
 conference, IEEE/CVF Conference on Computer Vision and Pattern Recognition,CVPR
 conference, IEEE Engineering in Medicine and Biology Society,IEMBS
@@ -177,4 +178,5 @@ conference, World Congress on Intelligent Control and Automation,WCICA
 conference,"IEEE Games, Entertainment, Media Conference",GEM
 conference,"IEEE International Conference on Manipulation, Manufacturing and Measurement on the Nanoscale",3M-NANO
 conference,"International Conference on Solid-State Sensors, Actuators and Microsystems",TRANSDUCERS
+
 
